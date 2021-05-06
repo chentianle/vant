@@ -6,13 +6,20 @@ Vue.use(Router);
 const routes = [
   {
     path: '*',
-    redirect: '/renovation_main'
+    redirect: '/url2'
   },
   {
     name: 'user',
     component: () => import('./view/user'),
     meta: {
       title: '会员中心'
+    }
+  },
+  {
+    name: 'url2',
+    component: () => import('./view/wechart'),
+    meta: {
+      title: '微信认证'
     }
   },
   {

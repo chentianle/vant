@@ -29,20 +29,52 @@
       <van-cell icon="gold-coin-o" title="我的优惠券" is-link />
       <van-cell icon="gift-o" title="我收到的礼物" is-link />
     </van-cell-group>
+    <p>
+    String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
+      "appid=APPID" +
+      "&redirect_uri=REDIRECT_URI" +
+      "&response_type=code" +
+      "&scope=snsapi_base" +
+      "&state=STATE" +
+      "#wechat_redirect";
+
+
+    </p>
+    <van-form @submit="onSubmit">
+      <div style="margin: 16px;">
+        <van-button round block type="info" native-type="submit">
+          提交
+        </van-button>
+      </div>
+  </van-form>
   </div>
 </template>
 
 <script>
-import { Row, Col, Icon, Cell, CellGroup } from 'vant';
-
+import { Row, Col, Icon, Cell, CellGroup,Form,Button } from 'vant';
 export default {
   components: {
     [Row.name]: Row,
     [Col.name]: Col,
     [Icon.name]: Icon,
     [Cell.name]: Cell,
-    [CellGroup.name]: CellGroup
-  }
+    [CellGroup.name]: CellGroup,
+    [Form.name]: Form,
+    [Button.name]: Button
+  },
+  methods: {
+    onSubmit() {
+      var redirect_uri = "http://laochao.handanyunding.com/"
+      var url1 ="https://open.weixin.qq.com/connect/oauth2/authorize?" +
+      "appid=wx157e60fb00148cff" +
+      "&redirect_uri=" + redirect_uri +
+      "&response_type=code" +
+      "&scope=snsapi_base" +
+      "&state=STATE" +
+      "#wechat_redirect";
+      location.href=url1
+    },
+  },
 };
 </script>
 
