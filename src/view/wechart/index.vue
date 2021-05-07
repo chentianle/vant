@@ -1,40 +1,81 @@
 <template>
   <div>
-    <img class="user-poster" src="https://img.yzcdn.cn/public_files/2017/10/23/8690bb321356070e0b8c4404d087f8fd.png">
-    
-    <p>
-      跳转过来的url2 
-    </p>
-      <span class="van-cell-text">{{codeUrl}}</span> 
-       <span class="van-cell-text">{{query}}</span> 
-       
-    <van-form @submit="onSubmit">
+    <van-notice-bar left-icon="info-o">
+      涉及到发工资，请仔细填写如下信息。
+    </van-notice-bar>
+     <van-divider />
+    <van-form @submit="onSubmit" @failed="onFailed" validate-first>
+      <van-field v-model="userName" name="userName" placeholder="姓名" :rules="[{required: true, message: '请填写用户名' }]"/>
+      <br/>
+      <van-field v-model="telphone" name="telphoneValidator" placeholder="手机号" :rules="[{ validator:telphoneValidator, message: '请输入正确手机号' }]"/>
+      <br/>
+      <van-field v-model="idCard" name="idCardValidator" placeholder="身份证号码" :rules="[{ validator:idCardValidator, message: '请输入正确身份证号码' }]"/>
       <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit">
           提交
         </van-button>
       </div>
-  </van-form>
-      <span class="van-cell-text">{{code}}</span> 
+    </van-form>
+    <span class="van-cell-text">{{openId}}</span> 
   </div>
 </template>
-
 <script>
-import { Form,Button } from 'vant';
+import { Form,Button,Toast,Field,Divider,NoticeBar } from 'vant';
 export default {
   components: {
     [Form.name]: Form,
-    [Button.name]: Button
+    [Button.name]: Button,
+    [Toast.name]: Toast, 
+    [Field.name]: Field, 
+    [Divider.name]: Divider, 
+    [NoticeBar.name]: NoticeBar, 
   },
   data() {
     return {
       codeUrl: '',
-      code: '12132123',
-      query:''
+      code: '',
+      query:'',
+      openId:'',
+      idCard:'',
+      telphone:'',
+      userName:'',
     };
   },
+  created: function(){
+    var _this = this
+    setTimeout(() => {
+      _this.getOpenId();
+    }, 500);
+  },
   methods: {
-    onSubmit() {
+    // 校验函数返回 true 表示校验通过，false 表示不通过
+    telphoneValidator(val) {
+      console.log(/^1(3|4|5|6|7|8|9)\d{9}$/.test(val))
+      return /^1(3|4|5|6|7|8|9)\d{9}$/.test(val);
+    },
+    idCardValidator(val) {
+      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+      return reg.test(val);
+    },
+    onFailed(errorInfo) {
+      console.log('failed', errorInfo);
+    },
+    onSubmit(){
+      this.$http({
+        url: this.$http.adornUrl('/wechart/saveUserInfo'),
+        method: 'post',
+        data: {'openId':this.openId,'userName':this.userName,'telphone':this.telphone,'idCard':this.idCard}
+      }).then((data) => {
+        console.log("resultData=",data);
+        if (data && data.flag) {
+            this.openId = data.data
+            this.$notify('获取成功');
+        } else {
+            this.$notify('获取openId失败');
+        }
+      })
+    },
+    getOpenId() {
       var test = window.location.href;
       this.codeUrl = test;
       var query = window.location.search.substring(1);
@@ -52,10 +93,12 @@ export default {
         method: 'post',
         data: {'code':this.code}
       }).then((data) => {
-        if (data && data.code === 0) {
-            this.$notify('记录成功');
+        console.log("resultData=",data);
+        if (data && data.flag) {
+            this.openId = data.data
+            this.$notify('获取成功');
         } else {
-            this.$notify('记录失败');
+            this.$notify('获取openId失败');
         }
       })
     },

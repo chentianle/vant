@@ -1,66 +1,20 @@
 <template>
   <div>
-    <img class="user-poster" src="https://img.yzcdn.cn/public_files/2017/10/23/8690bb321356070e0b8c4404d087f8fd.png">
-    <van-row class="user-links">
-      <van-col span="6">
-        <van-icon name="pending-payment" />
-        待付款
-      </van-col>
-      <van-col span="6">
-        <van-icon name="records" />
-        待接单
-      </van-col>
-      <van-col span="6">
-        <van-icon name="tosend" />
-        待发货
-      </van-col>
-      <van-col span="6">
-        <van-icon name="logistics" />
-        已发货
-      </van-col>
-    </van-row>
-
-    <van-cell-group class="user-group">
-      <van-cell icon="records" title="全部订单" is-link />
-    </van-cell-group>
-
-    <van-cell-group>
-      <van-cell icon="points" title="我的积分" is-link />
-      <van-cell icon="gold-coin-o" title="我的优惠券" is-link />
-      <van-cell icon="gift-o" title="我收到的礼物" is-link />
-    </van-cell-group>
-    <p>
-    String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-      "appid=APPID" +
-      "&redirect_uri=REDIRECT_URI" +
-      "&response_type=code" +
-      "&scope=snsapi_base" +
-      "&state=STATE" +
-      "#wechat_redirect";
-
-
-    </p>
-    <van-form @submit="onSubmit">
-      <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit">
-          提交
-        </van-button>
-      </div>
-  </van-form>
+    <van-loading type="spinner" color="#1989fa" vertical>微信认证中...</van-loading>
   </div>
 </template>
 
 <script>
-import { Row, Col, Icon, Cell, CellGroup,Form,Button } from 'vant';
+import { Loading  } from 'vant';
 export default {
   components: {
-    [Row.name]: Row,
-    [Col.name]: Col,
-    [Icon.name]: Icon,
-    [Cell.name]: Cell,
-    [CellGroup.name]: CellGroup,
-    [Form.name]: Form,
-    [Button.name]: Button
+    [Loading .name]: Loading
+  },
+  created: function(){
+    var _this = this
+    setTimeout(() => {
+      _this.onSubmit();
+    }, 500);
   },
   methods: {
     onSubmit() {
