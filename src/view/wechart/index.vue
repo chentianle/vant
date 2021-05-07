@@ -16,11 +16,10 @@
         </van-button>
       </div>
     </van-form>
-    <span class="van-cell-text">{{openId}}</span> 
   </div>
 </template>
 <script>
-import { Form,Button,Toast,Field,Divider,NoticeBar } from 'vant';
+import { Form,Button,Toast,Field,Divider,NoticeBar,Notify  } from 'vant';
 export default {
   components: {
     [Form.name]: Form,
@@ -29,6 +28,7 @@ export default {
     [Field.name]: Field, 
     [Divider.name]: Divider, 
     [NoticeBar.name]: NoticeBar, 
+    [Notify.name]: Notify,
   },
   data() {
     return {
@@ -69,9 +69,12 @@ export default {
         console.log("resultData=",data);
         if (data && data.flag) {
             this.openId = data.data
-            this.$notify('获取成功');
+            Notify({ type: 'success', message: '提交成功' });
+            setTimeout(() => {
+              location.href="https://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI1NTY3MzQzNA==#wechat_webview_type=1&wechat_redirect"
+            }, 1000);
         } else {
-            this.$notify('获取openId失败');
+            Notify({ type: 'warning', message: '提交失败' });
         }
       })
     },
@@ -96,9 +99,9 @@ export default {
         console.log("resultData=",data);
         if (data && data.flag) {
             this.openId = data.data
-            this.$notify('获取成功');
+              Notify({ type: 'success', message: '获取openId成功' });
         } else {
-            this.$notify('获取openId失败');
+             Notify({ type: 'warning', message: '获取openId失败' });
         }
       })
     },

@@ -8,7 +8,7 @@
 import { Loading  } from 'vant';
 export default {
   components: {
-    [Loading .name]: Loading
+    [Loading.name]: Loading
   },
   created: function(){
     var _this = this

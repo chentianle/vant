@@ -12,14 +12,14 @@ const routes = [
     name: 'user',
     component: () => import('./view/user'),
     meta: {
-      title: '会员中心'
+      title: '微信认证'
     }
   },
   {
     name: 'url2',
     component: () => import('./view/wechart'),
     meta: {
-      title: '微信认证'
+      title: '绑定用户信息'
     }
   },
   {
