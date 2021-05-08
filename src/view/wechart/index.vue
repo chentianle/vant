@@ -10,6 +10,10 @@
       <van-field v-model="telphone" name="telphoneValidator" placeholder="手机号" :rules="[{ validator:telphoneValidator, message: '请输入正确手机号' }]"/>
       <br/>
       <van-field v-model="idCard" name="idCardValidator" placeholder="身份证号码" :rules="[{ validator:idCardValidator, message: '请输入正确身份证号码' }]"/>
+      <van-divider />
+      <van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o" v-show="userInfoTrue">
+        您已经填写过个人信息，如需修改请修改后提交即可！
+      </van-notice-bar>
       <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit">
           提交
@@ -39,6 +43,7 @@ export default {
       idCard:'',
       telphone:'',
       userName:'',
+      userInfoTrue:false,
     };
   },
   created: function(){
@@ -72,7 +77,7 @@ export default {
             Notify({ type: 'success', message: '提交成功' });
             setTimeout(() => {
               location.href="https://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI1NTY3MzQzNA==#wechat_webview_type=1&wechat_redirect"
-            }, 1000);
+            }, 500);
         } else {
             Notify({ type: 'warning', message: '提交失败' });
         }
@@ -99,9 +104,27 @@ export default {
         console.log("resultData=",data);
         if (data && data.flag) {
             this.openId = data.data
-              Notify({ type: 'success', message: '获取openId成功' });
+            Notify({ type: 'success', message: '获取openId成功' });
+            this.getUserInfo();
         } else {
-             Notify({ type: 'warning', message: '获取openId失败' });
+            Notify({ type: 'warning', message: '获取openId失败' });
+        }
+      })
+    },
+    getUserInfo(){
+      this.$http({
+        url: this.$http.adornUrl('/wechart/getUserInfo'),
+        method: 'post',
+        dataType : 'json', 
+        data: {'openId': this.openId}
+      }).then((data) => {
+        console.log("resultUserInfoData=",data);
+        if (data && data.flag) {
+                 console.log("resultUserInfoData111=", data.data.userName);
+          this.userName = data.data.userName
+          this.telphone = data.data.telphone
+          this.idCard = data.data.idCard
+          this.userInfoTrue = true;
         }
       })
     },
