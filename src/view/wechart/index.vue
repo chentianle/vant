@@ -74,10 +74,8 @@ export default {
         console.log("resultData=",data);
         if (data && data.flag) {
             this.openId = data.data
-            Notify({ type: 'success', message: '提交成功' });
-            setTimeout(() => {
-              location.href="https://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI1NTY3MzQzNA==#wechat_webview_type=1&wechat_redirect"
-            }, 500);
+            Notify({ type: 'success', message: '提交成功,将会跳转至首页面。' });
+            location.href="https://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzI1NTY3MzQzNA==#wechat_webview_type=1&wechat_redirect&random="+Math.random();
         } else {
             Notify({ type: 'warning', message: '提交失败' });
         }
@@ -104,7 +102,7 @@ export default {
         console.log("resultData=",data);
         if (data && data.flag) {
             this.openId = data.data
-            Notify({ type: 'success', message: '获取openId成功' });
+            Notify({ type: 'success', message: '认证成功，请填写信息' });
             this.getUserInfo();
         } else {
             Notify({ type: 'warning', message: '获取openId失败' });

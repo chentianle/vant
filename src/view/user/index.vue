@@ -1,6 +1,7 @@
 <template>
   <div>
     <van-loading type="spinner" color="#1989fa" vertical>微信认证中...</van-loading>
+    <span>微信认证跳转页面...</span>
   </div>
 </template>
 
@@ -10,11 +11,13 @@ export default {
   components: {
     [Loading.name]: Loading
   },
+  data() {
+    return {
+      url1:''
+    };
+  },
   created: function(){
-    var _this = this
-    setTimeout(() => {
-      _this.onSubmit();
-    }, 500);
+    this.onSubmit()
   },
   methods: {
     onSubmit() {
@@ -26,6 +29,7 @@ export default {
       "&scope=snsapi_base" +
       "&state=STATE" +
       "#wechat_redirect";
+      this.url1 = url1+'&random='+Math.random();
       location.href=url1
     },
   },
