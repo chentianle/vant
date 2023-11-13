@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      var redirect_uri = "http://laochao.handanyunding.com/"
+      var redirect_uri = "http://yuanhongrenli.cn/"
       var url1 ="https://open.weixin.qq.com/connect/oauth2/authorize?" +
       "appid=wx157e60fb00148cff" +
       "&redirect_uri=" + redirect_uri +
